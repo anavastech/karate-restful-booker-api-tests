@@ -1,0 +1,4 @@
+{
+  "bookingid": "#number? _ > 0",
+  "booking": "#(read('classpath:common/schemas/booking.json'))"
+}

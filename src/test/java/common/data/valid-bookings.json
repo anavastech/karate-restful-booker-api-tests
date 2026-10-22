@@ -1,0 +1,18 @@
+[
+  {
+    "description": "deposit paid with extra needs",
+    "overrides": { "totalprice": 250, "depositpaid": true, "additionalneeds": "Late checkout" }
+  },
+  {
+    "description": "no deposit and minimum price",
+    "overrides": { "totalprice": 1, "depositpaid": false, "additionalneeds": "None" }
+  },
+  {
+    "description": "high price for a long stay",
+    "overrides": { "totalprice": 99999, "depositpaid": true, "additionalneeds": "Airport transfer" }
+  },
+  {
+    "description": "accented and hyphenated names",
+    "overrides": { "firstname": "José-María", "lastname": "Núñez O'Brien", "totalprice": 180, "depositpaid": false, "additionalneeds": "Dinner" }
+  }
+]

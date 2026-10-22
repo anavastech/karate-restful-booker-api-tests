@@ -1,0 +1,86 @@
+name: API Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Every day at 06:00 UTC
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: Karate tag to run (@bug scenarios are always excluded)
+        type: choice
+        default: '@regression'
+        options:
+          - '@regression'
+          - '@smoke'
+          - '@negative'
+          - '@e2e'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Run Karate tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      - name: Run tests
+        run: mvn -B test -Dtags="${{ inputs.tags || '@regression' }}"
+
+      - name: Upload Karate reports
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: karate-reports
+          path: target/karate-reports
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: Prepare GitHub Pages site
+        if: ${{ !cancelled() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
+        run: |
+          mkdir -p site
+          cp -r target/karate-reports/. site/
+          cp site/karate-summary.html site/index.html
+
+      - name: Upload Pages artifact
+        if: ${{ !cancelled() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: site
+
+  deploy-report:
+    name: Publish report to GitHub Pages
+    needs: test
+    # Publish on main even when tests fail, so the report shows what broke
+    if: ${{ !cancelled() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

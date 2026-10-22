@@ -1,0 +1,3 @@
+{
+  "bookingid": "#number? _ > 0"
+}

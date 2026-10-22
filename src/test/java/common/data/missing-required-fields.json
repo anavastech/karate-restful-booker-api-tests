@@ -1,0 +1,7 @@
+[
+  { "field": "firstname" },
+  { "field": "lastname" },
+  { "field": "totalprice" },
+  { "field": "depositpaid" },
+  { "field": "bookingdates" }
+]

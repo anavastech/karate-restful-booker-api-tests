@@ -1,0 +1,11 @@
+{
+  "firstname": "#string",
+  "lastname": "#string",
+  "totalprice": "#number",
+  "depositpaid": "#boolean",
+  "bookingdates": {
+    "checkin": "#regex \\d{4}-\\d{2}-\\d{2}",
+    "checkout": "#regex \\d{4}-\\d{2}-\\d{2}"
+  },
+  "additionalneeds": "##string"
+}

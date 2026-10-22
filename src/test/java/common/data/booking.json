@@ -1,0 +1,11 @@
+{
+  "firstname": "Karate",
+  "lastname": "Tester",
+  "totalprice": 150,
+  "depositpaid": true,
+  "bookingdates": {
+    "checkin": "2030-01-01",
+    "checkout": "2030-01-05"
+  },
+  "additionalneeds": "Breakfast"
+}

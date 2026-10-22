@@ -1,0 +1,14 @@
+[
+  { "description": "missing firstname", "overrides": {}, "removals": ["firstname"] },
+  { "description": "missing lastname", "overrides": {}, "removals": ["lastname"] },
+  { "description": "missing totalprice", "overrides": {}, "removals": ["totalprice"] },
+  { "description": "missing depositpaid", "overrides": {}, "removals": ["depositpaid"] },
+  { "description": "missing bookingdates", "overrides": {}, "removals": ["bookingdates"] },
+  { "description": "firstname is a number", "overrides": { "firstname": 12345 }, "removals": [] },
+  { "description": "totalprice is a string", "overrides": { "totalprice": "one hundred" }, "removals": [] },
+  { "description": "depositpaid is a string", "overrides": { "depositpaid": "yes" }, "removals": [] },
+  { "description": "negative totalprice", "overrides": { "totalprice": -50 }, "removals": [] },
+  { "description": "checkin is not a date", "overrides": { "bookingdates": { "checkin": "not-a-date", "checkout": "2030-01-05" } }, "removals": [] },
+  { "description": "impossible calendar date", "overrides": { "bookingdates": { "checkin": "2030-02-30", "checkout": "2030-13-45" } }, "removals": [] },
+  { "description": "checkout before checkin", "overrides": { "bookingdates": { "checkin": "2030-01-10", "checkout": "2030-01-01" } }, "removals": [] }
+]
